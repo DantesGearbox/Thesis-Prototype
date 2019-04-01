@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour {
+public class MovementCopy : MonoBehaviour {
 
 	/* Movement:
 	 * Simple rules that add up to complex behavior
