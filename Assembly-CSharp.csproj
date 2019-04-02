@@ -61,8 +61,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AnimationCurveExtension.cs" />
+    <Compile Include="Assets\Scripts\Attack.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\MovementCopy.cs" />
+<<<<<<< HEAD
+=======
+    <Compile Include="Assets\Scripts\SpecifyAttack.cs" />
+    <Compile Include="Assets\Scripts\SpecifyAttackInspector.cs" />
+>>>>>>> bb6d46556ee61fe536250e7254bb6bacb3d74015
     <Compile Include="Assets\Scripts\Utility.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>E:/Unity Projects/Thesis-Prototype/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
