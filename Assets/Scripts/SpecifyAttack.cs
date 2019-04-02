@@ -22,8 +22,6 @@ public class SpecifyAttack : MonoBehaviour {
 		(Attack comboing, Salt, SFV)
 	 */
 
-	
-
 	[Header("Frame Data")]
 	public float startUpFrames = 10;
 	public float activeFrames = 10;
@@ -46,10 +44,10 @@ public class SpecifyAttack : MonoBehaviour {
 	public float frameToCancelJump = 0;
 
 	[Header("Ground Movement Behavior")]
-	public bool stopMovementInStartup = false;
+	public bool stopMovementInStartup = true;
 	public bool stopMovementInActive = false;
 	public bool stopMovementInRecovery = false;
-	public float frameToStopGroundMovement = 0;
+	public float frameToStopGroundMovement = 5;
 
 	[Header("Air X Movement Behavior")]
 	public bool stopXMovementInStartup = false;
@@ -81,6 +79,7 @@ public class SpecifyAttack : MonoBehaviour {
 
 	[Header("Misc")]
 	public float cooldownFramesBetweenAttacks = 0;
+	public bool preventJumpingWhileAttacking = true;
 	public bool attackBuffering = false;
 	public bool multipleAttacksInAJump = false;
 }
