@@ -13,6 +13,7 @@ public class NewMovement : MonoBehaviour {
 	//Components
 	Rigidbody2D rb;
 	BoxCollider2D boxColl;
+	Attack attackComponent;
 
 	//Internal use
 	float xVelocity = 0;
@@ -23,7 +24,12 @@ public class NewMovement : MonoBehaviour {
 
 	//State for outer classes to set
 	[HideInInspector] public bool stopGroundMovement = false;
+	[HideInInspector] public bool stopHorizontalAirMovement = false;
+	[HideInInspector] public bool stopDownwardsAirMovement = false;
+	[HideInInspector] public bool stopUpwardsAirMovement = false;
 	[HideInInspector] public bool preventJumping = false;
+	[HideInInspector] public bool cancelAttackOnMovement = false;
+	[HideInInspector] public bool cancelAttackOnJump = false;
 
 	//Physics calculated variables 
 	float groundAcceleration = 0;
@@ -49,6 +55,7 @@ public class NewMovement : MonoBehaviour {
     void Start() {
 		rb = GetComponent<Rigidbody2D>();
 		boxColl = GetComponent<BoxCollider2D>();
+		attackComponent = GetComponent<Attack>();
 
 		SetupPhysics();
     }
@@ -69,13 +76,46 @@ public class NewMovement : MonoBehaviour {
 		HorizontalAirDecceleration();
 		Jump();
 		Gravity();
+		CancelAttackOnMoveInput();
 
 		//Rules used by the Attack class to enforce the effects
 		StopGroundMovement();
-
+		StopUpwardsAirMovement();
+		StopDownwardsAirMovement();
+		StopHorizontalAirMovement();
 	}
 
 	#region Rules
+
+	void CancelAttackOnMoveInput() {
+		if (cancelAttackOnMovement) {
+			if (Input.GetKey(leftKey) || Input.GetKey(rightKey)) {
+				attackComponent.CancelCurrentAttack();
+			}
+		}
+	}
+
+	void StopHorizontalAirMovement() {
+		if(stopHorizontalAirMovement && !onGround) {
+			xVelocity = 0;		
+		}
+	}
+
+	void StopDownwardsAirMovement() {
+		if (stopDownwardsAirMovement && !onGround) {
+			if(yVelocity < 0) {
+				yVelocity = 0;
+			}
+		}
+	}
+
+	void StopUpwardsAirMovement() {
+		if (stopUpwardsAirMovement && !onGround) {
+			if (yVelocity > 0) {
+				yVelocity = 0;
+			}
+		}
+	}
 
 	void StopGroundMovement() {
 		if (stopGroundMovement && onGround) {
@@ -86,6 +126,10 @@ public class NewMovement : MonoBehaviour {
 	void Jump() {
 		if (Input.GetKeyDown(jumpKey) && onGround && !preventJumping) {
 			yVelocity += jumpMaxVelocity;
+
+			if (cancelAttackOnJump) {
+				attackComponent.CancelCurrentAttack();
+			}
 		}
 
 		if (Input.GetKeyUp(jumpKey) && rb.velocity.y > jumpMinVelocity && !onGround) {
@@ -190,7 +234,17 @@ public class NewMovement : MonoBehaviour {
 			//If the angle between the normal and up is less than 5, we are on the ground
 			if (Vector2.Angle(contacts[i].normal, Vector2.up) < 5.0f) {
 				onGround = true;
-				
+
+				//Cancel attack on landing
+				if (attackComponent.cancelAttackOnLanding) {
+					attackComponent.CancelCurrentAttack();
+				}
+
+				//Restore air attack charges
+				if (attackComponent.lockedAmountOfAttacksInTheAir) {
+					attackComponent.RestoreAirAttackCharges();
+				}
+
 				//Since this is out of the update loop, we might have to modify rb.velocity directly 
 				rb.velocity = new Vector2(rb.velocity.x, 0);
 			}

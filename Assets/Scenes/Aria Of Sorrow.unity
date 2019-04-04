@@ -1570,6 +1570,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 616753779}
+  - component: {fileID: 616753781}
   - component: {fileID: 616753780}
   m_Layer: 0
   m_Name: Sprite
@@ -1640,6 +1641,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &616753781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616753778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5963b2e9eb1d04d8dcfb32674f0614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startUpColor: {r: 0.06006193, g: 1, b: 0, a: 1}
+  activeColor: {r: 0, g: 0.18980193, b: 1, a: 1}
+  recoveryColor: {r: 1, g: 0, b: 0, a: 1}
+  cooldownColor: {r: 1, g: 0.71938586, b: 0, a: 1}
 --- !u!1 &651091407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2387,7 +2404,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 900893341}
-  - component: {fileID: 900893346}
   - component: {fileID: 900893344}
   - component: {fileID: 900893340}
   - component: {fileID: 900893342}
@@ -2413,6 +2429,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackKey: 120
+  startUpFrames: 5
+  activeFrames: 5
+  recoveryFrames: 10
+  frameTimes:
+  - phase: 2
+    effect: 7
+    frame: 0
+    activated: 0
+  cancelAttackOnLanding: 0
+  stopMovement: 0
+  turnWhileGroundAttacking: 0
+  turnWhileAirAttacking: 0
+  amountOfMovement: 0
+  movementDecreaseOverTime:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animCuve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  canAttackUpwardsOnGround: 0
+  canAttackUpwardsInAir: 0
+  canAttackDownwardsOnGround: 0
+  canAttackDownwardsInAir: 0
+  cooldownFramesBetweenAttacks: 0
+  lockedAmountOfAttacksInTheAir: 1
+  attackChargesInAir: 1
 --- !u!4 &900893341
 Transform:
   m_ObjectHideFlags: 0
@@ -2492,7 +2558,12 @@ MonoBehaviour:
   jumpKey: 122
   onGround: 0
   stopGroundMovement: 0
+  stopHorizontalAirMovement: 0
+  stopDownwardsAirMovement: 0
+  stopUpwardsAirMovement: 0
   preventJumping: 0
+  cancelAttackOnMovement: 0
+  cancelAttackOnJump: 0
 --- !u!114 &900893345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2527,60 +2598,6 @@ MonoBehaviour:
   angularVelocityMode: 2
   angularVelocityMin: Infinity
   angularVelocityMax: -Infinity
---- !u!114 &900893346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900893339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3ee15b5283fb0346833c169719edc3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startUpFrames: 30
-  activeFrames: 30
-  recoveryFrames: 30
-  cancelAttackOnLanding: 0
-  stopMovement: 0
-  moveCancelDuringStartup: 0
-  moveCancelDuringActive: 0
-  moveCancelDuringRecovery: 0
-  frameToCancelMove: 0
-  jumpCancelDuringStartup: 0
-  jumpCancelDuringActive: 0
-  jumpCancelDuringRecovery: 0
-  frameToCancelJump: 0
-  stopMovementInStartup: 1
-  stopMovementInActive: 0
-  stopMovementInRecovery: 0
-  frameToStopGroundMovement: 5
-  stopXMovementInStartup: 0
-  stopXMovementInActive: 0
-  stopXMovementInRecovery: 0
-  frameToStopXAirMovement: 0
-  stopYMovementInStartup: 0
-  stopYMovementInActive: 0
-  stopYMovementInRecovery: 0
-  frameToStopYAirMovement: 0
-  turnWhileGroundAttacking: 0
-  turnWhileAirAttacking: 0
-  amountOfMovement: 0
-  movementDecreaseOverTime:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  canAttackUpwardsOnGround: 0
-  canAttackUpwardsInAir: 0
-  canAttackDownwardsOnGround: 0
-  canAttackDownwardsInAir: 0
-  cooldownFramesBetweenAttacks: 0
-  stopJumpingWhileAttacking: 1
-  attackBuffering: 0
-  multipleAttacksInAJump: 0
 --- !u!1 &904098882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2794,7 +2811,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ba3dc5ca345b4bb409c7f104db7f95fa, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.50980395}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3179,6 +3196,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackKey: 107
+  startUpFrames: 32
+  activeFrames: 32
+  recoveryFrames: 32
+  frameTimes: []
+  cancelAttackOnLanding: 0
+  stopMovement: 0
+  turnWhileGroundAttacking: 0
+  turnWhileAirAttacking: 0
+  amountOfMovement: 0
+  movementDecreaseOverTime:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animCuve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: -1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  canAttackUpwardsOnGround: 0
+  canAttackUpwardsInAir: 0
+  canAttackDownwardsOnGround: 0
+  canAttackDownwardsInAir: 0
+  cooldownFramesBetweenAttacks: 0
+  lockedAmountOfAttacksInTheAir: 0
+  attackChargesInAir: 1
 --- !u!114 &1240075663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3230,7 +3293,7 @@ MonoBehaviour:
   canAttackDownwardsOnGround: 0
   canAttackDownwardsInAir: 0
   cooldownFramesBetweenAttacks: 0
-  stopJumpingWhileAttacking: 1
+  preventJumpingWhileAttacking: 1
   attackBuffering: 0
   multipleAttacksInAJump: 0
 --- !u!1 &1261225703
