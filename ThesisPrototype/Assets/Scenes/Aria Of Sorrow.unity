@@ -1591,7 +1591,7 @@ Transform:
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 900893341}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &616753780
 SpriteRenderer:
@@ -2428,13 +2428,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c062e8c81ce00b458271d33095f4ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordPlacement: {fileID: 1392960217}
   attackKey: 120
+  UpInput: 273
+  DownInput: 274
   startUpFrames: 5
   activeFrames: 5
   recoveryFrames: 10
   frameTimes:
-  - phase: 2
-    effect: 7
+  - phase: 5
+    effect: 2
     frame: 0
     activated: 0
   cancelAttackOnLanding: 0
@@ -2490,6 +2493,7 @@ Transform:
   m_LocalPosition: {x: -0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1392960217}
   - {fileID: 616753779}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -3151,151 +3155,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1240075660
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1240075661}
-  - component: {fileID: 1240075662}
-  - component: {fileID: 1240075663}
-  m_Layer: 0
-  m_Name: TestObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1240075661
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240075660}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2035119, y: -0.004443465, z: -0.115234375}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1240075662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240075660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c062e8c81ce00b458271d33095f4ad6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackKey: 107
-  startUpFrames: 32
-  activeFrames: 32
-  recoveryFrames: 32
-  frameTimes: []
-  cancelAttackOnLanding: 0
-  stopMovement: 0
-  turnWhileGroundAttacking: 0
-  turnWhileAirAttacking: 0
-  amountOfMovement: 0
-  movementDecreaseOverTime:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animCuve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: -1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  canAttackUpwardsOnGround: 0
-  canAttackUpwardsInAir: 0
-  canAttackDownwardsOnGround: 0
-  canAttackDownwardsInAir: 0
-  cooldownFramesBetweenAttacks: 0
-  lockedAmountOfAttacksInTheAir: 0
-  attackChargesInAir: 1
---- !u!114 &1240075663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1240075660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3ee15b5283fb0346833c169719edc3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startUpFrames: 10
-  activeFrames: 10
-  recoveryFrames: 10
-  cancelAttackOnLanding: 0
-  stopMovement: 0
-  moveCancelDuringStartup: 0
-  moveCancelDuringActive: 0
-  moveCancelDuringRecovery: 0
-  frameToCancelMove: 0
-  jumpCancelDuringStartup: 0
-  jumpCancelDuringActive: 0
-  jumpCancelDuringRecovery: 0
-  frameToCancelJump: 0
-  stopMovementInStartup: 0
-  stopMovementInActive: 0
-  stopMovementInRecovery: 0
-  frameToStopGroundMovement: 0
-  stopXMovementInStartup: 0
-  stopXMovementInActive: 0
-  stopXMovementInRecovery: 0
-  frameToStopXAirMovement: 0
-  stopYMovementInStartup: 0
-  stopYMovementInActive: 0
-  stopYMovementInRecovery: 0
-  frameToStopYAirMovement: 0
-  turnWhileGroundAttacking: 0
-  turnWhileAirAttacking: 0
-  amountOfMovement: 0
-  movementDecreaseOverTime:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  canAttackUpwardsOnGround: 0
-  canAttackUpwardsInAir: 0
-  canAttackDownwardsOnGround: 0
-  canAttackDownwardsInAir: 0
-  cooldownFramesBetweenAttacks: 0
-  preventJumpingWhileAttacking: 1
-  attackBuffering: 0
-  multipleAttacksInAJump: 0
 --- !u!1 &1261225703
 GameObject:
   m_ObjectHideFlags: 0
@@ -3703,7 +3562,7 @@ GameObject:
   - component: {fileID: 1392960216}
   - component: {fileID: 1392960215}
   m_Layer: 0
-  m_Name: Sprite-0005
+  m_Name: SwordSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3783,12 +3642,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392960214}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -3, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 0.75, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 900893341}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1464047010
 GameObject:

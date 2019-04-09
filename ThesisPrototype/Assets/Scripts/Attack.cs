@@ -9,6 +9,8 @@ public class Attack : MonoBehaviour
 	//Components
 	NewMovement movementComponent;
 	ChangeSpriteColor spriteComponent;
+	Animator animatorComponent;
+	public Transform swordPlacement;
 
 	//Counters for frame data
 	float startUpTimer = 0;
@@ -21,12 +23,31 @@ public class Attack : MonoBehaviour
 	//Controls
 	[Header("Controls")]
 	public KeyCode attackKey = KeyCode.X;
+	public KeyCode UpInput = KeyCode.UpArrow;
+	public KeyCode DownInput = KeyCode.DownArrow;
 
 	//State of the attack
 	bool isAttacking = false;
 	bool inStartUp = false;
 	bool inActive = false;
 	bool inRecovery = false;
+
+	//Weapon placements during attacks
+	Vector2 weaponPlacement = new Vector2(1, 0);
+	Vector2 rightPlacement = new Vector2(1, 0);
+	Vector2 upPlacement = new Vector2(0, 1);
+	Vector2 downPlacement = new Vector2(0, -1);
+	Vector2 leftPlacement = new Vector2(-1, 0);
+
+	//Facing direction
+	enum Directions { left, right, up, down };
+	Directions facingDirection = Directions.right;
+	Directions attackingDirection = Directions.right;
+
+	//Weapon rotation during attack
+	float weaponRotation = 0;
+	float rightRotation = 0;
+	float upRotation = 90;
 
 	//Enums
 	[System.Serializable] public enum Phases { startUp, active, recovery, startUpAndActive, activeAndRecovery, wholeAttack };
@@ -77,9 +98,10 @@ public class Attack : MonoBehaviour
 	private void Start() {
 		movementComponent = GetComponent<NewMovement>();
 		spriteComponent = GetComponentInChildren<ChangeSpriteColor>();
+		animatorComponent = GetComponentInChildren<Animator>();
 	}
 
-	//NOTE: It is important to note that when we do something for a period, it keeps being true till the end.
+	//NOTE: It is important to note that when we do something for a phase, it keeps being true till the end.
 	//	For example, if we disable movement on frame 5, it keeps being disabled until the end.
 
 	private void DisplayFrameTimes() {
@@ -90,6 +112,27 @@ public class Attack : MonoBehaviour
 	}
 
 	private void Update() {
+
+		// What I want to do with a sword sprite:
+		// We need a facing direction of either left or right
+		// At the same time we need to detect whether or not extra directional input was given
+		// Lastly we need 
+
+		//Turning behavior feels super wierd! It would be nice to know how other games do it.
+		//There might be a delay of when you press the movement button and when the attack direction actually changes.
+
+
+		//If we're not attacking or if we can turn while attacking, change the current facing direction
+		if (!isAttacking || (turnWhileAirAttacking && !movementComponent.onGround) || (turnWhileGroundAttacking && movementComponent.onGround)) {
+			if (Input.GetKey(movementComponent.rightKey)) {
+				swordPlacement.localPosition = rightPlacement;
+				swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+			}
+			if (Input.GetKey(movementComponent.leftKey)) {
+				swordPlacement.localPosition = leftPlacement;
+				swordPlacement.localRotation = Quaternion.Euler(new Vector3(180, 0, 180));
+			}
+		}
 
 		//Check if we have used all our air attack charges
 		bool outOfAirAttackCharges = false;
@@ -109,6 +152,7 @@ public class Attack : MonoBehaviour
 			}
 
 			spriteComponent.ChangeToStartUpColor();
+			animatorComponent.SetTrigger("StartUp");
 
 			//Start of the attack. All "wholeAttack" effects should be started here.
 			StartWholeAttackEffects();
@@ -127,6 +171,7 @@ public class Attack : MonoBehaviour
 				startUpTimer = 0;
 
 				spriteComponent.ChangeToActiveColor();
+				animatorComponent.SetTrigger("Active");
 
 				//Start Up is over, end all "startUp" effects
 				EndStartUpEffects();
@@ -146,6 +191,7 @@ public class Attack : MonoBehaviour
 				activeTimer = 0;
 
 				spriteComponent.ChangeToRecoveryColor();
+				animatorComponent.SetTrigger("Recovery");
 
 				//Active is over, end all "active" and "startUpAndActive" effects
 				EndActiveEffects();
@@ -166,6 +212,7 @@ public class Attack : MonoBehaviour
 				attackOnCooldown = true;
 
 				spriteComponent.ChangeToCooldownColor();
+				animatorComponent.SetTrigger("Idle");
 
 				//Recovery is over, end all "recovery", "activeAndRecovery" and "wholeAttack" effects
 				EndRecoveryEffects();
