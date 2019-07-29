@@ -23,8 +23,8 @@ public class Attack : MonoBehaviour
 	//Controls
 	[Header("Controls")]
 	public KeyCode attackKey = KeyCode.X;
-	public KeyCode UpInput = KeyCode.UpArrow;
-	public KeyCode DownInput = KeyCode.DownArrow;
+	public KeyCode upInput = KeyCode.UpArrow;
+	public KeyCode downInput = KeyCode.DownArrow;
 
 	//State of the attack
 	bool isAttacking = false;
@@ -33,11 +33,11 @@ public class Attack : MonoBehaviour
 	bool inRecovery = false;
 
 	//Weapon placements during attacks
-	Vector2 weaponPlacement = new Vector2(1, 0);
-	Vector2 rightPlacement = new Vector2(1, 0);
+	Vector2 weaponPlacement = new Vector2(1, 0.25f);
+	Vector2 rightPlacement = new Vector2(1, 0.25f);
 	Vector2 upPlacement = new Vector2(0, 1);
 	Vector2 downPlacement = new Vector2(0, -1);
-	Vector2 leftPlacement = new Vector2(-1, 0);
+	Vector2 leftPlacement = new Vector2(-1, 0.25f);
 
 	//Facing direction
 	enum Directions { left, right, up, down };
@@ -124,6 +124,7 @@ public class Attack : MonoBehaviour
 
 		//If we're not attacking or if we can turn while attacking, change the current facing direction
 		if (!isAttacking || (turnWhileAirAttacking && !movementComponent.onGround) || (turnWhileGroundAttacking && movementComponent.onGround)) {
+
 			if (Input.GetKey(movementComponent.rightKey)) {
 				swordPlacement.localPosition = rightPlacement;
 				swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -132,7 +133,49 @@ public class Attack : MonoBehaviour
 				swordPlacement.localPosition = leftPlacement;
 				swordPlacement.localRotation = Quaternion.Euler(new Vector3(180, 0, 180));
 			}
+			if (Input.GetKey(upInput)) {
+				if((movementComponent.onGround && canAttackUpwardsOnGround) || (!movementComponent.onGround && canAttackUpwardsInAir)) {
+					swordPlacement.localPosition = upPlacement;
+					swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+				}
+			}
+			if (Input.GetKey(downInput)) {
+				if ((movementComponent.onGround && canAttackDownwardsOnGround) || (!movementComponent.onGround && canAttackDownwardsInAir)) {
+					swordPlacement.localPosition = downPlacement;
+					swordPlacement.localRotation = Quaternion.Euler(new Vector3(180, 0, 90));
+				}
+			}
 		}
+
+		if(isAttacking && movementComponent.onGround && !canAttackUpwardsOnGround && swordPlacement.localPosition.Equals(upPlacement)) {
+			swordPlacement.localPosition = rightPlacement;
+			swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		}
+		if (isAttacking && movementComponent.onGround && !canAttackDownwardsOnGround && swordPlacement.localPosition.Equals(downPlacement)) {
+			swordPlacement.localPosition = rightPlacement;
+			swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		}
+		if (isAttacking && !movementComponent.onGround && !canAttackUpwardsInAir && swordPlacement.localPosition.Equals(upPlacement)) {
+			swordPlacement.localPosition = rightPlacement;
+			swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		}
+		if (isAttacking && !movementComponent.onGround && !canAttackDownwardsInAir && swordPlacement.localPosition.Equals(downPlacement)) {
+			swordPlacement.localPosition = rightPlacement;
+			swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		}
+
+		//This is idiot code, but it fixes a bug
+		//if (isAttacking && (swordPlacement.localPosition.Equals(upPlacement) || swordPlacement.localPosition.Equals(downPlacement))) {
+		//	if (!canAttackDownwardsOnGround && movementComponent.onGround) {
+		//		swordPlacement.localPosition = rightPlacement;
+		//		swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		//	}
+
+		//	if (!canAttackUpwardsOnGround && movementComponent.onGround) {
+		//		swordPlacement.localPosition = rightPlacement;
+		//		swordPlacement.localRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+		//	}
+		//}
 
 		//Check if we have used all our air attack charges
 		bool outOfAirAttackCharges = false;
@@ -246,6 +289,9 @@ public class Attack : MonoBehaviour
 
 	public void CancelCurrentAttack() {
 		if (isAttacking) {
+
+			animatorComponent.SetTrigger("Reset");
+
 			inStartUp = false;
 			startUpTimer = 0;
 			EndStartUpEffects();
